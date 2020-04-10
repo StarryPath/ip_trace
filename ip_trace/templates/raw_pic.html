@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap {height:100%; width: 100%;}
+		#control{width:100%;}
+	</style>
+	<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=03jNFtRzoo6OTFGdG6oyzhpkSN8LohwX"></script>
+	<title>trace</title>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	map.centerAndZoom(new BMap.Point(116.404, 39.915), 15);
+	map.enableScrollWheelZoom();
+
+	{% for dian in dian_set %}
+
+
+        var marker = new BMap.Marker(new BMap.Point{{dian}});
+        map.addOverlay(marker);
+
+
+	{% endfor %}
+	{% for ip_line in ip_all %}
+		var polyline = new BMap.Polyline([
+    {%for ip in ip_line%}
+        new BMap.Point{{ip}},
+    {% endfor %}
+    ], {strokeColor:"blue", strokeWeight:1, strokeOpacity:1});   //创建折线
+	map.addOverlay(polyline);   //增加折线
+	{% endfor %}
+
+
+
+</script>
+

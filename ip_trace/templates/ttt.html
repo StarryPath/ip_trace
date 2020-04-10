@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for ip_line in ip_all %}
+    {%for ip in ip_line%}
+        {{ ip[0] }}
+    {% endfor %}
+{% endfor %}
+</body>
+</html>
