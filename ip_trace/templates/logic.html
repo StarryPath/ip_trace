@@ -2,8 +2,118 @@
 <html style="height: 100%">
    <head>
        <meta charset="utf-8">
+       <title>
+        逻辑拓扑
+
+    </title>
+       <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <style>
+        .selector-for-some-widget {
+            box-sizing: content-box;
+        }
+
+        a {
+            margin-right: 40px;
+        }
+
+    </style>
    </head>
    <body style="height: 100%; margin: 0">
+   <body style="height: 100%; margin: 0">
+   <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    <style type="text/css">
+        body {
+            margin-top: 80px;
+        }
+    </style>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="">
+            首页
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/ip_trace/nm">逻辑拓扑</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ip_trace/raw">物理拓扑</a>
+                </li>
+                                <li class="nav-item">
+                    <a class="nav-link" href="/ip_trace/pie">优化统计</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        工具
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+
+                        <a class="dropdown-item"  href="/ip_trace/tree">别名集</a>
+
+                        <a class="dropdown-item" data-toggle="modal" data-target="#registerModal">traceroute</a>
+                    </div>
+                </li>
+
+
+            </ul>
+
+
+        </div>
+    </nav>
+
+
+    <div class="modal fade" id="registerModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Traceroute</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <form action="/ip_trace/trace" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="ip" class="col-form-label">IP:</label>
+                            <input type="text" class="form-control" name="ip">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary">TRACE</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+   <br><br><br><br><br>
        <div id="container" style="height: 100%"></div>
        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 	   <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
@@ -25,15 +135,19 @@ $.get('/static/webkit-dep.json', function (webkitDep) {
 
     option = {
         legend: {
-            data: ['匿名', '非匿名', 'SVG', 'CSS', 'Other']
+            data: ['匿名', '非匿名', ]
         },
         series: [{
             type: 'graph',
             layout: 'force',
+            symbol :'pin',
+            lineStyle:{type:'solid'},
             animation: false,
+            roam: true,
             label: {
                 position: 'right',
-                formatter: '{b}'
+                formatter: '{b}',
+                show:true,
             },
             draggable: true,
             data: webkitDep.nodes.map(function (node, idx) {

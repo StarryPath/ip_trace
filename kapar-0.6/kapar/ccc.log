@@ -1,0 +1,42 @@
+# version: $Id: kapar.cc,v 1.175 2017/08/31 17:24:33 kkeys Exp $
+# version: $Id: PathLoader.cc,v 1.29 2017/09/13 17:11:14 kkeys Exp $
+# start time: 1587384020 (2020-04-20 20:00:20 CST)
+# command line: ./kapar -ial -py -r31 -sir -c0.5 -nv -adms -d1 -mn -lb -1a -oal -O ccc -z 24
+#   -P ccc.warts
+#
+# loaded 13 bogons
+# loadTraces: ccc.warts
+# traces=389/389/389 loops=0 discarded=0 namedIfaces=396 anon=1082 uniq_anon=554 hops=2603 anonSegs=341
+# named_prev: n=371 mem=8368 eff=0.354685
+# named_next: n=468 mem=7856 eff=0.238289
+# anon_prev: n=554 mem=8864 eff=0.25
+# TraceIDSet totalSize=2603 totalSlots=1464
+# TraceIDSets:  0:202 1:504 2:139 3:36 >3:69
+# bad_31_traces=0 not_min_mask=2924 not_min_net=0 same_min_net=6 badSubnets=11
+# found 9 redundant anonymous matches
+# found 20 subnets
+# after findAliases 1: found 0 nodes (max id 0), containing 0 interfaces (0 redundant (omitted), 0 anonymous, 0 named); and 0 links (max id 0), containing 0 interfaces (0 implicit, 0 redundant (omitted), 0 anonymous, 0 named).
+B=60.235.192.54 C=60.235.192.9 D=60.235.192.10/30
+B=60.235.192.106 C=60.235.192.9 D=60.235.192.10/30
+B=60.235.192.114 C=60.235.192.9 D=60.235.192.10/30
+B=60.235.192.134 C=60.235.192.9 D=60.235.192.10/30
+B=60.235.192.86 C=60.235.192.10 D=60.235.192.9/30
+B=60.235.192.102 C=60.235.192.10 D=60.235.192.9/30
+B=224.0.0.198 C=202.97.26.82 D=202.97.26.81/30
+B=224.0.1.116 C=202.97.26.82 D=202.97.26.81/30
+B=224.0.1.140 C=202.97.26.82 D=202.97.26.81/30
+B=224.0.1.98 C=60.235.192.106 D=60.235.192.105/30
+B=202.97.24.70 C=60.235.192.106 D=60.235.192.105/30
+B=224.0.1.249 C=60.235.192.50 D=60.235.192.49/30
+B=202.97.48.50 C=60.235.192.54 D=60.235.192.53/30
+B=202.97.48.54 C=60.235.192.86 D=60.235.192.85/30
+B=202.97.24.78 C=60.235.192.134 D=60.235.192.133/30
+B=101.95.120.157 C=101.95.40.169 D=101.95.40.170/30
+B=202.97.76.38 C=202.97.13.105 D=202.97.13.106/30
+B=202.97.56.209 C=202.97.24.66 D=202.97.24.65/30
+B=224.0.1.57 C=202.97.24.70 D=202.97.24.69/30
+B=224.0.1.68 C=202.97.24.78 D=202.97.24.77/30
+B=224.0.0.3 C=202.97.40.250 D=202.97.40.249/30
+B=202.97.79.194 C=202.97.41.190 D=202.97.41.189/30
+# after findAliases 2: found 15 nodes (max id 15), containing 37 interfaces (0 redundant (omitted), 8 anonymous, 29 named); and 14 links (max id 14), containing 28 interfaces (0 implicit, 0 redundant (omitted), 0 anonymous, 28 named).
+# after findLinks: found 928 nodes (max id 928), containing 950 interfaces (0 redundant (omitted), 554 anonymous, 396 named); and 949 links (max id 949), containing 2044 interfaces (1284 implicit, 0 redundant (omitted), 554 anonymous, 206 named).

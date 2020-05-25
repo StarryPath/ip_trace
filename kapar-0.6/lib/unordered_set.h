@@ -1,0 +1,43 @@
+/* lib/unordered_set.h.  Generated from unordered_set.h.in by configure.  */
+/* 
+ * Copyright (C) 2011-2018 The Regents of the University of California.
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+/* Define one of these corresponding to your system's implementation of
+ * unordered_set (or hash_set). */
+#define HAVE_UNORDERED_SET 1
+/* #undef HAVE_TR1_UNORDERED_SET */
+/* #undef HAVE_HASH_SET */
+/* #undef HAVE_EXT_HASH_SET */
+
+/* Define the namespace of unordered_set (or hash_set). */
+#define UNORDERED_NAMESPACE std
+
+
+/* Do not edit below this line. */
+#if defined(HAVE_UNORDERED_SET)
+# include <unordered_set>
+#elif defined(HAVE_TR1_UNORDERED_SET)
+# include <tr1/unordered_set>
+#elif defined(HAVE_HASH_SET)
+# include <hash_set>
+# define unordered_set hash_set
+#elif defined(HAVE_EXT_HASH_SET)
+# include <ext/hash_set>
+# define unordered_set hash_set
+#endif
+

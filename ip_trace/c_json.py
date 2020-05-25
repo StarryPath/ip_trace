@@ -19,9 +19,9 @@ for trace in cursor.fetchall():
 
     for ip in trace_ip:
         ans = now
-        if ip=="*":
+        if ip[0]=="*":
             jip={}
-            jip['name']="*"+str(nm)
+            jip['name']=ip
             jip['value']=1
             jip['category']=0
             nm=nm+1
@@ -33,10 +33,24 @@ for trace in cursor.fetchall():
             if ip not in ex_ip:
                 ex_ip[ip]=now
                 jip['name']=ip
-                jip['value']=2
+                jip['value']=1
                 jip['category']=1
                 nodes.append(jip)
                 now = now + 1
+                with open("iplist", 'a') as f:  # 'a'表示append,即在原来文件内容后继续写数据（不清楚原有数据）
+                    f.write(ip+"\n")
+                '''
+                sql = "INSERT INTO total_ip(ip) VALUES ('%s')" % (ip)
+                try:
+                    # 执行sql语句
+                    cursor.execute(sql)
+                    # 提交到数据库执行
+                    db.commit()
+                except Exception as c:
+                    # 如果发生错误则回滚
+                    print(c)
+                    db.rollback()
+                '''
             else:
                 ans=ex_ip[ip]
 
@@ -65,7 +79,7 @@ test_dict = {
     "nodes": nodes,
     'links':links
 }
-
+print(len(nodes))
 json_str = json.dumps(test_dict, indent=4)
 with open('/home/fy/trace_show/ip_trace/static/webkit-dep.json', 'w') as json_file:
     json_file.write(json_str)

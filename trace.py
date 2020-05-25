@@ -10,7 +10,8 @@ db = pymysql.connect("localhost", "root", "root", "bishe")
 cursor = db.cursor()
 cnt=0
 result_1=""
-while cnt<50:
+nm_cnt=0
+while cnt<10000:
     cnt=cnt+1
     sql="select ip from ip_loc where flag=0 limit 1"
     fl=0
@@ -50,7 +51,8 @@ while cnt<50:
             #print(a[1])
             while i < a[0]:
                 # print(i,snd.ttl)
-                s += '*'
+                s = s+'*'+str(nm_cnt)
+                nm_cnt+=1
                 s += ' '
                 i = i + 1
             if i != 1:

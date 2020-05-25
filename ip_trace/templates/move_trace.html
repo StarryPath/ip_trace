@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap {height:100%; width: 100%;}
+		#control{width:100%;}
+	</style>
+	<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=03jNFtRzoo6OTFGdG6oyzhpkSN8LohwX"></script>
+		<script type="text/javascript" src="//api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+	<title>
+        move_trace
+
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <style>
+        .selector-for-some-widget {
+            box-sizing: content-box;
+        }
+
+        a {
+            margin-right: 40px;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="/ip_trace">
+            首页
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/ip_trace/nm">逻辑拓扑</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ip_trace/raw">物理拓扑</a>
+                </li>
+                                <li class="nav-item">
+                    <a class="nav-link" href="/ip_trace/pie">优化统计</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        工具
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+
+                        <a class="dropdown-item"  href="/ip_trace/tree">别名集</a>
+
+                        <a class="dropdown-item" data-toggle="modal" data-target="#registerModal">traceroute</a>
+                    </div>
+                </li>
+
+
+            </ul>
+
+
+        </div>
+    </nav>
+
+
+    <div class="modal fade" id="registerModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Traceroute</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <form action="/ip_trace/trace" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="ip" class="col-form-label">IP:</label>
+                            <input type="text" class="form-control" name="ip">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary">TRACE</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+   <br><br>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	map.centerAndZoom(new BMap.Point(116.404, 39.915), 5);
+	map.enableScrollWheelZoom();
+
+	{% for key,value in dian_set.items %}
+
+
+        var marker = new BMap.Marker(new BMap.Point{{key}});
+        map.addOverlay(marker);
+	var label = new BMap.Label("{{value}}",{offset:new BMap.Size(20,-10)});
+	marker.setLabel(label);
+
+	{% endfor %}
+
+	{% for nm in nm_set %}
+	var beijingPosition=new BMap.Point{{nm}};
+
+	var points = [beijingPosition];
+
+	var curve = new BMapLib.CurveLine(points, {strokeColor:"blue", strokeWeight:3, strokeOpacity:0.5}); //创建弧线对象
+	map.addOverlay(curve); //添加到地图中
+	curve.enableEditing(); //开启编辑功能
+
+	{% endfor %}
+
+
+	{% for ip_line in ip_all %}
+		var polyline = new BMap.Polyline([
+    {%for ip in ip_line%}
+        new BMap.Point{{ip}},
+    {% endfor %}
+    ], {strokeColor:"blue", strokeWeight:8, strokeOpacity:0.0,});   //创建折线
+	map.addOverlay(polyline);   //增加折线
+	{% endfor %}
+
+
+
+</script>
+
