@@ -10,7 +10,7 @@ reader = geoip2.database.Reader("/home/fy/trace_show/ip_trace/static/GeoLite2-Ci
 def raw(request):
     db = pymysql.connect("localhost", "root", "root", "bishe")
     cursor=db.cursor()
-    sql="select tra from trace limit 200"
+    sql="select tra from trace limit 1000"
     cursor.execute(sql)
     ip_all=[]
     dian_set=set()
@@ -56,7 +56,7 @@ def raw(request):
     return render(request, 'raw_pic.html',{'ip_all':ip_all,'dian_set':dian_set,'nm_set':nm_set})
 # Create your views here.
 def logic(request):
-    return render(request, 'logic.html')
+    return render(request, 'nm.html')
 def pie(request):
     return render(request, 'pie.html')
 def alias(request):

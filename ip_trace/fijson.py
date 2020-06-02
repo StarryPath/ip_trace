@@ -5,57 +5,7 @@ db = pymysql.connect("localhost", "root", "root", "bishe")
 
 # 使用cursor()方法获取操作游标
 cursor = db.cursor()
-
-
-ali={}
-file = open("kapar.aliases")
-i=1
-cnt=1
-rootschild=[]
-while True:
-    line = file.readline()  # 只读取一行内容
-    line = line.strip('\n')
-    if not line:
-        break
-    if line[0:4]=="node":
-        ips=line.split()
-        ips.pop(0)
-        ips.pop(0)
-
-        if len(ips)>1:
-            bran={}
-            bran["name"]="al"+str(i)
-
-            bran["children"]=[]
-            for ip in ips:
-                ali[ip]=i
-                bran["children"].append({"name":ip})
-                sql="INSERT INTO alias (ip,groups) VALUES ('%s','%s')" % (ip,i)
-                try:
-                    # 执行sql语句
-                    cursor.execute(sql)
-                    # 提交到数据库执行
-                    db.commit()
-                except Exception as c:
-                    # 如果发生错误则回滚
-                    print(c)
-                    db.rollback()
-
-            rootschild.append(bran)
-            print(i)
-            i+=1
-            print(ips)
-tree_dict = {
-    "name":"alias_tree",
-    "children":rootschild,
-}
-
-print(tree_dict)
-json_str = json.dumps(tree_dict, indent=4)
-with open('/home/fy/trace_show/ip_trace/static/tree.json', 'w') as json_file:
-    json_file.write(json_str)
-
-sql = "select tra2 from nm2 limit 100"
+sql = "select tra from final_trace "
 cursor.execute(sql)
 ip_all = []
 nm=0
@@ -65,6 +15,7 @@ nm_ip={}
 al_id={}
 now=0
 links=[]
+ali={}
 for trace in cursor.fetchall():
     trace_ip = trace[0].split()
     i = 0
@@ -84,17 +35,17 @@ for trace in cursor.fetchall():
                 now = now + 1
             else:
                 ans=nm_ip[ip]
-        elif ip in ali:
+        elif ip[0] =="a":
             jip={}
-            if ali[ip] not in al_id:
-                al_id[ali[ip]]=now
-                jip['name']="al"+str(ali[ip])
+            if ip not in al_id:
+                al_id[ip]=now
+                jip['name']=str(ip)
                 jip['value'] = 1
                 jip['category'] = 2
                 nodes.append(jip)
                 now = now + 1
             else:
-                ans=al_id[ali[ip]]
+                ans=al_id[ip]
         else:
             jip={}
             if ip not in ex_ip:
@@ -152,6 +103,5 @@ test_dict = {
 }
 print(len(nodes))
 json_str = json.dumps(test_dict, indent=4)
-with open('/home/fy/trace_show/ip_trace/static/nm.json', 'w') as json_file:
+with open('/home/fy/trace_show/ip_trace/static/final.json', 'w') as json_file:
     json_file.write(json_str)
-

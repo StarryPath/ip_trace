@@ -115,7 +115,7 @@ var myChart = echarts.init(dom);
 var app = {};
 option = null;
 myChart.showLoading();
-$.get('/static/nm.json', function (webkitDep) {
+$.get('/static/final.json', function (webkitDep) {
     myChart.hideLoading();
 
     option = {
